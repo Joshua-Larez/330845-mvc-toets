@@ -1,4 +1,11 @@
 <?php
+
+    namespace TDD\libraries;
+    require 'C:/Users/baba/Desktop/mvc-toets/app/config/config.php';
+
+    use \PDO;
+    use \PDOException;
+
     class Database {
         private $dbHost = DB_HOST;
         private $dbUser = DB_USER;
@@ -29,7 +36,7 @@
         }
 
         //bind values
-        public function bind($parameter, $value, $type =null) {
+        public function bind($parameter, $value, $type = Null) {
             switch (is_null($type)) {
                 case is_int($value):
                     $type = PDO::PARAM_INT;

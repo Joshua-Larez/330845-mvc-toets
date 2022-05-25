@@ -9,7 +9,7 @@ define('DB_NAME', 'mvcframework');
 define('APPROOT', dirname(dirname(__FILE__)));
 
 //URLROOT dynamic links
-define('URLROOT', 'mvc-workbench.org');
+define('URLROOT', 'www.http://mvc-toets.org');
 
 //sitename
 define('SITENAME', 'MVC FRAMEWORKS');

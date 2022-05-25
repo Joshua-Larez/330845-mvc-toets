@@ -1,7 +1,7 @@
 <?php
     class Core 
     {
-        protected $currentController = 'Countries';
+        protected $currentController = 'countries';
         protected $currentMethod = 'index';
         protected $params = [];
     
@@ -16,8 +16,10 @@
             }
 
             // require the controller 
-            require_once '../app/controllers/' . $this->currentController . '.php';
-            $this->currentController = new $this->currentController;
+            require_once 'C:/Users/baba/Desktop/mvc-toets/app/controllers/' . $this->currentController . '.php';
+
+            $cls = 'TDD\\controllers\\' . $this->currentController;
+            $this->currentController = new $cls();
 
             //check for second part of the URL
             if(isset($url[1])) {

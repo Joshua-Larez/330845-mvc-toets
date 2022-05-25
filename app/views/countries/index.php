@@ -20,18 +20,7 @@
             </tr>
         </thead>
         <tbody>
-            <?php 
-                foreach ($data['country'] as $v) {
-                    $test = number_format($v->population,0,'.','.');
-                    echo "<tr>
-                            <th scope='row'>{$v->id}</th>
-                            <td>{$v->name}</td>
-                            <td>{$v->capitalCity}</td>
-                            <td>{$v->continent}</td>
-                            <td>{$test}</td>
-                        </tr>";
-                }              
-            ?>
+            <?= $data["country"] ?? "" ?>
         </tbody>
     </table>
 </body>
