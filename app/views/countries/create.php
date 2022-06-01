@@ -11,54 +11,49 @@
     <!-- Local CSS -->
     <link rel="stylesheet" href="../css/users.css">
 
-    <title>Magazijn</title>
+    <title>creating_records</title>
   </head>
 
   <body>
-    <?php
-        $data['names'] ?? '';
-        // var_dump($data);
-        // var_dump($data['names']->name);
-        // var_dump($data);
-    ?>
-
-    <Form action="<? URLROOT; ?>/Countries/update" method="post">
+    <Form action="/Countries/create" method="post">
       <div class="container">
-      <h1>Land wijzigen</h1> 
+      <h1>Land maken</h1> 
         <div class="container-fluid mb-5">
           <div class="row input-bundle">
             <div class="col-sm-6">
               <div class="form-group mb-2">
-                <label for="name">Name</label>
-                <input type="text" name="name" class="form-control" value="<?php echo $data['names']->name?>" required placeholder="name">
+                <label for="name">Country Name</label>
+                <input type="text" name="name" class="form-control" value="" required placeholder="name">
               </div>
             </div>
     
             <div class="col-sm-6">
               <div class="form-group mb-2">
                 <label for="capitalcity">Capital</label>
-                <input type="text" name="capitalcity" class="form-control" value="<?php echo $data['names']->capitalCity?>" placeholder="capitalcity">
-              </div>
-            </div>
-    
-            <div class="col-sm-6">
-              <div class="form-group mb-2">
-                <label for="continentq">Continent</label>
-                <input type="text" name="continentq" class="form-control" value="<?php echo $data['names']->continent?>" required placeholder="continent">
+                <input type="text" name="capitalcity" class="form-control" value="" placeholder="capitalcity">
               </div>
             </div>
     
             <div class="col-sm-6">
             <div class="form-group mb-2">
                 <label for="population">Population</label>
-                <input type="text" name="population" class="form-control" value="<?php echo $data['names']->population?>" required placeholder="population">
+                <input type="number" name="population" class="form-control" value="" required placeholder="population">
               </div>
             </div>
 
+            <h6>Continent</h6>
+                <select class="form-select" name="continent" aria-label="Default select example" id="continent">
+                    <option value="Afrika">Afrika</option>
+                    <option value="Antar">Antartica</option>
+                    <option value="Azië">Azië</option>
+                    <option value="Australië/Oceanië">Australië/Oceanië</option>
+                    <option value="Europa">Europa</option>
+                    <option value="Noord-Amerika">Noord-Amerika</option>
+                    <option value="Zuid-Amerika">Zuid-Amerika</option>
+                </select>
+            <label for="continent"></label>
           </div>
         </div>
-
-        <input type="hidden" name="id" value="<?=$data['names']->id?>">
 
         <button type="submit" value="submit" class="submit btn btn-lg">Opslaan</button>
       </div>

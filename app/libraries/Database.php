@@ -29,6 +29,10 @@
                 echo $this->error;
             }
         }
+        
+        public function getError() {
+            return $this->error;
+        }
 
         //allows us to write queries
         public function query($sql) {
