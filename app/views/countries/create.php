@@ -1,18 +1,5 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-    <!-- Local CSS -->
-    <link rel="stylesheet" href="../css/users.css">
-
-    <title>creating_records</title>
-  </head>
+<!-- link to css -->
+<?php require APPROOT . '/views/includes/head_create.php';?>
 
   <body>
     <Form action="/Countries/create" method="post">
@@ -41,6 +28,13 @@
               </div>
             </div>
 
+            <div class="col-sm-6">
+            <div class="form-group mb-2">
+                <label for="email">Email</label>
+                <input type="email" name="email" class="form-control" value="" required placeholder="email">
+              </div>
+            </div>
+
             <h6>Continent</h6>
                 <select class="form-select" name="continent" aria-label="Default select example" id="continent">
                     <option value="Afrika">Afrika</option>
@@ -55,7 +49,8 @@
           </div>
         </div>
 
-        <button type="submit" value="submit" class="submit btn btn-lg">Opslaan</button>
+        <a href="/countries/index"><button type="Button">Back</button></a>
+        <button type="submit" value="submit">Opslaan</button>
       </div>
     </Form>
   </body>

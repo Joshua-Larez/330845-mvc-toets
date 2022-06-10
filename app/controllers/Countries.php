@@ -37,7 +37,7 @@
                         </form>
                         ';
                         
-                        // <input type="submit" name="ref" value="Refresh">
+            // <input type="submit" name="ref" value="Refresh">
             $rows = "";
             foreach ($country as $v) {
                 $test = number_format($v->population,0,'.','.');
@@ -47,8 +47,9 @@
                         <td>{$v->capitalCity}</td>
                         <td>{$v->continent}</td>
                         <td>{$test}</td>
-                        <td><Button><a href='/Countries/update/$v->id'>update</a></Button></td>
-                        <td><Button><a href='/Countries/delete/$v->id'>Delete</a></Button></td>
+                        <td>{$v->email}</td>
+                        <td><a href='".URLROOT."/Countries/update/$v->id'><Button>update</Button></a></td>
+                        <td><a href='".URLROOT."/Countries/delete/$v->id'><Button>Delete</Button></a></td>
                     </tr>"; 
             }
 
@@ -74,7 +75,7 @@
                 // succesfull message 
                 echo 'You updated this record: "' . ucfirst($post['name']) . '" in the database';
                 // go to index
-                header('Refresh:2; url=/countries/index');
+                header('Refresh:2; url='. URLROOT .'/countries/index');
             }
             else
             {
@@ -104,7 +105,7 @@
             ];
 
             $this->view('countries/delete', $data);
-            header("Refresh:2; url=/countries/index");
+            header("Refresh:2; url=" . URLROOT . "/countries/index");
         }
 
         // create new country 
@@ -126,7 +127,7 @@
                 catch (PDOException $e)
                 {
                     echo 'creating new country name did NOT succeed'; 
-                    header("Refresh:2; url=/countries/index");
+                    header("Refresh:2; url=" . URLROOT . "/countries/index");
 
                 }
             }

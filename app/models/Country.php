@@ -23,7 +23,7 @@
         public function getCountryByName() {
             $conn = new Database();
             $conn->query("SELECT * FROM country WHERE `name` = :name");
-            $conn->bind(':name', $_GET['text'] ?? "");
+            $conn->bind(':name', $_GET['text'] ?? '', PDO::PARAM_STR);
 
             $result = $conn->resultSet();
 
@@ -34,7 +34,7 @@
         public function getCountryByContinent() {
             $conn = new Database();
             $conn->query("SELECT * FROM country WHERE `continent` = :continent");
-            $conn->bind(':continent', $_GET['text'] ?? "");
+            $conn->bind(':continent', $_GET['text'] ?? '', PDO::PARAM_STR);
 
             $result = $conn->resultSet();
 
@@ -46,7 +46,7 @@
             // make new connection to database
             $conn = new Database();
             // prepare statement
-            $conn->query("SELECT * FROM country WHERE concat(`id`, `name`, `capitalCity`, `continent`, `population`) LIKE '%".$value."%' ");
+            $conn->query("SELECT * FROM country WHERE concat(`id`, `name`, `capitalCity`, `continent`, `population`, `email`) LIKE '%".$value."%' ");
             // execute statement
             $result = $conn->resultSet();
             // return the value $result
@@ -80,14 +80,16 @@
                                 set `name` = :name,
                                     `capitalCity` = :capitalcity,
                                     `continent` = :continent,
-                                    `population` = :population
+                                    `population` = :population,
+                                    `email` = :email
                                 WHERE `id` = :id');
 
-            $this->db->bind(':id', $post['id'] ?? '');
-            $this->db->bind(':name', ucfirst($post['name']?? ''));
-            $this->db->bind(':capitalcity', ucfirst($post['capitalcity']?? ''));
-            $this->db->bind(':continent', ucfirst($post['continent']?? ''));
-            $this->db->bind(':population', $post['population']?? '');
+            $this->db->bind(':id', $post['id'] ?? '', PDO::PARAM_INT);
+            $this->db->bind(':name', ucfirst($post['name']?? ''), PDO::PARAM_STR);
+            $this->db->bind(':capitalcity', ucfirst($post['capitalcity']?? ''), PDO::PARAM_STR);
+            $this->db->bind(':continent', ucfirst($post['continent']?? ''), PDO::PARAM_STR);
+            $this->db->bind(':population', $post['population']?? '', PDO::PARAM_INT);
+            $this->db->bind(':email', $post['email']?? '', PDO::PARAM_STR);
 
             $this->db->execute();
         }
@@ -95,12 +97,20 @@
         // delete a country
         public function deleteCountry($id) 
         {
-            // prepare statement
-            $this->db->query('DELETE FROM country WHERE id = :id ');
-            $this->db->bind('id', $id, PDO::PARAM_INT);
 
-            // execute statement
-            $this->db->execute();
+            try 
+            {
+                // prepare statement
+                $this->db->query('DELETE FROM country WHERE id = :id ');
+                $this->db->bind('id', $id, PDO::PARAM_INT);
+    
+                // execute statement
+                $this->db->execute();
+            }
+            catch(PDOException $e) 
+            {
+                echo $e->getMessage() . 'country not deleted';
+            }
 
         }
 
@@ -108,8 +118,8 @@
         public function createCountry($post)
         {
             // prepare query
-            $this->db->query(" INSERT INTO `country` (`name`, `capitalCity`, `continent`, `population`) 
-                                VALUES (:name, :capitalcity, :continent, :population) ");
+            $this->db->query(" INSERT INTO `country` (`name`, `capitalCity`, `continent`, `population`, `email`) 
+                                VALUES (:name, :capitalcity, :continent, :population, :email)");
 
             // var_dump($post);exit;
 
@@ -119,6 +129,7 @@
             $this->db->bind(':capitalcity', ucfirst($post['capitalcity']));
             $this->db->bind(':continent', ucfirst($post['continent']));
             $this->db->bind(':population', $post['population']);
+            $this->db->bind(':email', $post['email']);
 
             // execute query
             $this->db->execute();

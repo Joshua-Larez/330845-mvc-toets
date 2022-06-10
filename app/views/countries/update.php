@@ -1,22 +1,13 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- link to css -->
+<?php require APPROOT . '/views/includes/head_update.php';?>
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-    <!-- Local CSS -->
-    <link rel="stylesheet" href="../css/users.css">
-
-    <title>updating_records</title>
-  </head>
-
-  <body>
+<body>
     <?php
         $data['names'] ?? '';
+
+        // decode &euml; back to ë
+        $data['names']->continent = html_entity_decode($data['names']->continent);
+
         // var_dump($data);
         // var_dump($data['names']->continent);
         // var_dump($data['names']);
@@ -49,16 +40,22 @@
               </div>
             </div>
 
+            <div class="col-sm-6">
+            <div class="form-group mb-2">
+                <label for="email">Email</label>
+                <input type="email" name="email" class="form-control" value="<?php echo $data['names']->email?>" required placeholder="email">
+              </div>
+            </div>
+
             <h6>Continent</h6>
                 <select class="form-select" name="continent" aria-label="Default select example" id="continent">
-                    <option value="<?php echo $data['names']->continent?>"><?php echo $data["names"]->continent?></option>
-                    <option value="Afrika">Afrika</option>
-                    <option value="Antartica">Antartica</option>
-                    <option value="Azië">Azië</option>
-                    <option value="Australië/Oceanië">Australië/Oceanië</option>
-                    <option value="Europa">Europa</option>
-                    <option value="Noord-Amerika">Noord-Amerika</option>
-                    <option value="Zuid-Amerika">Zuid-Amerika</option>
+                    <option <?= $data['names']->continent == "Afrika" ? "selected=\"selected\"" : '' ?> value="Afrika">Afrika</option>
+                    <option <?= $data['names']->continent == "Antartica" ? "selected=\"selected\"" : '' ?> value="Antartica">Antartica</option>
+                    <option <?= $data['names']->continent == "Azië" ? "selected=\"selected\"" : '' ?> value="Azië">Azië</option>
+                    <option <?= $data['names']->continent == "Australië/Oceanië" ? "selected=\"selected\"" : '' ?> value="Australië/Oceanië">Australië/Oceanië</option>
+                    <option <?= $data['names']->continent == "Europa" ? "selected=\"selected\"" : '' ?> value="Europa">Europa</option>
+                    <option <?= $data['names']->continent == "Noord-Amerika" ? "selected=\"selected\"" : '' ?> value="Noord-Amerika">Noord-Amerika</option>
+                    <option <?= $data['names']->continent == "Zuid-Amerika" ? "selected=\"selected\"" : '' ?> value="Zuid-Amerika">Zuid-Amerika</option>
                 </select>
             <label for="continent"></label>
           </div>
@@ -66,7 +63,8 @@
 
         <input type="hidden" name="id" value="<?=$data['names']->id?>">
 
-        <button type="submit" value="submit" class="submit btn btn-lg">Opslaan</button>
+        <a href="/countries/index"><button type="Button">Back</button></a>
+        <button type="submit" value="submit">Opslaan</button>
       </div>
     </Form>
   </body>
