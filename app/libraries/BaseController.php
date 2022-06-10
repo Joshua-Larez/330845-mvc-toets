@@ -5,7 +5,7 @@
 
     class BaseController {
         public function model($model){
-            require_once 'C:/Users/baba/Desktop/mvc-toets/app/models/' . $model . '.php';
+            require_once '../app/models/' . $model . '.php';
             // require_once '../app/models/' . $model . '.php';
             //instantiate model
             return new $model(); 

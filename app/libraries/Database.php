@@ -1,7 +1,7 @@
 <?php
 
     namespace TDD\libraries;
-    require 'C:/Users/baba/Desktop/mvc-toets/app/config/config.php';
+    require '../app/config/config.php';
 
     use \PDO;
     use \PDOException;
@@ -40,20 +40,28 @@
         }
 
         //bind values
-        public function bind($parameter, $value, $type = Null) {
-            switch (is_null($type)) {
-                case is_int($value):
-                    $type = PDO::PARAM_INT;
-                    break;
-                case is_bool($value):
-                    $type = PDO::PARAM_BOOL;
-                    break;
-                case is_null($value):
-                    $type = PDO::PARAM_NULL;
-                    break;
-                default:
-                $type = PDO::PARAM_STR;
+        public function bind(string $parameter, mixed $value, ?int $type = null)
+        {
+            if (is_null($type) || !isset($type)) {
+                switch ( gettype($value) ) {
+                    case "integer":
+                        $type = PDO::PARAM_INT;
+                        break;
+
+                    case "boolean":
+                        $type = PDO::PARAM_BOOL;
+                        break;
+
+                    case "NULL":
+                        $type = PDO::PARAM_NULL;
+                        break;
+
+                    default:
+                        $type = PDO::PARAM_STR;
+                        break;
+                }
             }
+
             $this->statement->bindValue($parameter, $value, $type);
         }
 

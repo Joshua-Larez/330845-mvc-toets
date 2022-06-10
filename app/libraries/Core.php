@@ -16,7 +16,7 @@
             }
 
             // require the controller 
-            require_once 'C:/Users/baba/Desktop/mvc-toets/app/controllers/' . $this->currentController . '.php';
+            require_once '../app/controllers/' . $this->currentController . '.php';
 
             $cls = 'TDD\\controllers\\' . $this->currentController;
             $this->currentController = new $cls();
