@@ -1,0 +1,93 @@
+body {
+    background-color: lightcyan;
+
+    input {
+        margin-bottom: .5rem;
+        padding: .1rem;
+    }
+
+    a {
+        color: black;
+        text-decoration: none;
+        #addbutton {
+            margin-bottom: 1rem;
+        }
+    }
+
+    button {
+        background-color: lightskyblue;
+        border: 0;
+        border-radius: .5rem;
+        padding: .5rem;
+    }
+
+    
+    button:hover {
+        background-color: lightgoldenrodyellow;
+        cursor: pointer;
+    }
+
+    .edit {
+        button {
+            box-icon{
+                fill: blue;
+            }
+        }
+    }
+
+    .trash {
+        button {
+            box-icon{
+                fill: rgba(255, 0, 0, 0.507);
+            }
+        }
+    }
+    
+    
+    // Testing:
+    // div {
+        // .container {
+            // margin:auto; 
+            // width: 50%;
+            // background-color: lightgray;
+            
+            // margin: 0;
+            // padding: 0;
+            // display: grid;
+            // align-items: center;
+            // justify-content: center;
+            // background-color: lightgrey;
+            
+            
+            // table {
+                // background-color: red;
+                // border-radius: .5rem;
+                
+                // tbody {
+                //     td {
+                //         tr {
+                //             a {
+                
+                //             }
+                //         }
+                //     }
+                // }
+                
+                // Testing:
+                // .stripe {
+                //     background-color: lightgreen;
+                // }
+                
+                // .hover {
+                //     background-color: darkblue;
+                // }
+                
+                // .red {
+                //     background-color: red !important;
+                // }
+
+            // }
+        // }
+    // }
+}
+

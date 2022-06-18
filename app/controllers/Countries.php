@@ -24,6 +24,7 @@
             {
                 $value = $_GET['text'];
                 $country = $this->countries->getCountryByAll($value);
+                // $country = $this->countries->getInnerJoin();
             } 
             else
             {
@@ -32,7 +33,7 @@
 
             echo'   <form name="form" action="" method="get">
                         <input type="text" name="text" id="subject" placeholder="Search Country"><br>
-                        <button onclick="this.form.getCountryAll()">Search</button>
+                        <button onclick="this.form.getCountryByAll($value)">Search</button>
                         <button onclick="this.form.getCountries()">Refresh</button>
                         </form>
                         ';
@@ -40,17 +41,15 @@
             // <input type="submit" name="ref" value="Refresh">
             $rows = "";
             foreach ($country as $v) {
-                $test = number_format($v->population,0,'.','.');
                 $rows .= "<tr>
-                        <th scope='row'>{$v->id}</th>
                         <td>{$v->name}</td>
                         <td>{$v->capitalCity}</td>
                         <td>{$v->continent}</td>
-                        <td>{$test}</td>
+                        <td> " . number_format($v->population,0,'.','.') . "</td>
                         <td>{$v->email}</td>
-                        <td><a href='".URLROOT."/Countries/update/$v->id'><Button>update</Button></a></td>
-                        <td><a href='".URLROOT."/Countries/delete/$v->id'><Button>Delete</Button></a></td>
-                    </tr>"; 
+                        <td><a class='edit' href='".URLROOT."/Countries/update/$v->id'><button><box-icon name='edit-alt'></box-icon></button></a></td>
+                        <td><a class='trash' href='".URLROOT."/Countries/delete/$v->id'><button><box-icon name='trash-alt'></box-icon></button></a></td>
+                    </tr>";
             }
 
             $data = [
@@ -96,51 +95,151 @@
         //  delete records by ID
         public function delete($id)
         {
-
-            $this->countries->deleteCountry($id);
-
-            $data =
-            [
-                'deleteStatus' => "succesfully deleted the record with id : $id"
-            ];
+            if ($this->countries->deleteCountry($id)) {
+                $data =
+                [
+                    'deleteStatus' => "<h1 id='success'> Succesfully deleted the record</h1>"
+                ];
+            } else {
+                $data =
+                [
+                    'deleteStatus' => "<h1 id='fail'> INTERN SERVER ERROR -> The record was not deleted</h1>"
+                ];
+            }
 
             $this->view('countries/delete', $data);
-            header("Refresh:2; url=" . URLROOT . "/countries/index");
+            header("Refresh:3; url=" . URLROOT . "/countries/index");
         }
 
         // create new country 
         public function create() 
         {
+            /**
+             * default value for the view create.php
+             */
+            $data = 
+            [
+                'title' => 'add new country',
+                'name' => '',
+                'capitalcity' => '',
+                'continent' =>'',
+                'population' => '',
+                'email' => '',
+                'nameError' => '',
+                'capitalcityError' => '',
+                'continentError' => '',
+                'populationError' => '',
+                'emailError' => ''
+            ];
+            
+            // var_dump($_SERVER);
             if($_SERVER['REQUEST_METHOD'] == 'POST') 
             {
-                try
-                {
-                    // filter the post array
-                    $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-                    // var_dump($post);exit;
-                    $this->countries->createCountry($_POST);
-                    // give succes message
-                    echo 'succesfully created a country name named : "' . ucfirst($_POST['name']) . '" in the database';
-                    // redirect to index
-                    header("Refresh:2; url=/countries/index");
-                }
-                catch (PDOException $e)
-                {
-                    echo 'creating new country name did NOT succeed'; 
-                    header("Refresh:2; url=" . URLROOT . "/countries/index");
-
-                }
-            }
-            else
-            {
-                // give this data as $data in create
                 $data = 
                 [
-                    'title' => 'add new country'
+                    'title' => 'add new country',
+                    'name' => trim($_POST['name']),
+                    'capitalcity' => trim($_POST['capitalcity']),
+                    'continent' =>trim($_POST['continent']),
+                    'population' => trim($_POST['population']),
+                    'email' => trim($_POST['email']),
+                    'nameError' => '',
+                    'capitalcityError' => '',
+                    'continentError' => '',
+                    'populationError' => '',
+                    'emailError' => ''
                 ];
-                $this->view('countries/create', $data);
+
+                // sets data in the validatecreateform function and returns $data
+                $data = $this->validateCreateForm($data);
+
+                if (   empty($data['nameError'])
+                    && empty($data['capitalcityError'])
+                    && empty($data['continentError'])
+                    && empty($data['populationError'])
+                    && empty($data['emailError'])
+                    ) {
+
+                    // filter the post array
+                    $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+                    // use details from $_POST and make a new country
+                    if ($this->countries->createCountry($_POST)) 
+                    {
+                        // var_dump($data['continent']);
+                       // echo "<div class='alert alert-success' role='alert'> Country was created succesfully </div>";
+                        header("Location: " . URLROOT . "/countries/success");
+                    } 
+                    else 
+                    {
+                        echo "<div class='alert alert-danger' role='alert'> There was an intern error, Please Try Again </div>";
+                        header("Refresh:2; url=" . URLROOT . "/countries/create");
+                    }
+                }
+            }
+            // redirect to this page
+            $this->view('countries/create', $data);
+        }
+
+        public function success()
+        {
+            $data = [
+                "message" => "<div class='alert alert-success' role='alert'> Country was created succesfully </div>"              
+            ];
+
+            $this->view("countries/success", $data);
+
+        }
+
+        // checks the $data from create.php and if something is wrong return an error.
+        public function validateCreateForm($data) 
+        {
+
+            // checks the inserted value from create.php
+            // checks name
+            if (empty($data['name'])) 
+            {
+                $data['nameError'] = 'you did not fill in a country name ';
+            } 
+            elseif (filter_var($data['name'], FILTER_VALIDATE_EMAIL)) 
+            {
+                $data['nameError'] = 'you filled in an email, this is a name box ';
+            } 
+            elseif (!preg_match('/^[a-zA-Z]*$/', $data['name'])) 
+            {
+                $data['nameError'] = 'you cannot use numbers in names ';
             }
 
+            // checks capitalcity
+            if (empty($data['capitalcity'])) 
+            {
+                $data['capitalcityError'] = 'you did not fill in a capitalcity ';
+            }
+
+            // checks continent
+            if (empty($data['continent'])) 
+            {
+                $data['continentError'] = 'you did not fill in a continent ';
+            }
+
+            // checks population
+            if (empty($data['population'])) 
+            {
+                $data['populationError'] = 'you did not fill in a amount of population ';
+            } 
+            elseif ($data['population'] > 4294967295) 
+            {
+                $data['populationError'] = 'the amount is too large ';
+            }
+
+            // checks email
+            if (empty($data['email'])) 
+            {
+                $data['emailError'] = 'you did not fill in an email ';
+            }
+
+            // returns $data 
+            return $data;
         }
 
         // unit test say my name 

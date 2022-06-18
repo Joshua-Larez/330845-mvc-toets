@@ -1,0 +1,26 @@
+{
+  "name": "mvc-toets",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/josh2187/330845-mvc-toets.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/josh2187/330845-mvc-toets/issues"
+  },
+  "homepage": "https://github.com/josh2187/330845-mvc-toets#readme",
+  "dependencies": {
+    "sass": "^1.52.3"
+  }
+}

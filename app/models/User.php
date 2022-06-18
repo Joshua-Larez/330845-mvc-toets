@@ -1,4 +1,5 @@
 <?php
+        use TDD\libraries\Database;
     class User {
         private $db;
 

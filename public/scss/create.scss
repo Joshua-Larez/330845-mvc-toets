@@ -1,0 +1,24 @@
+body {
+    background-color: lightcyan;
+    a {
+        color: black;
+        text-decoration: none;
+    }
+    button {
+        background-color: lightskyblue;
+        border: 0;
+        border-radius: .5rem;
+        padding: .5rem;
+    }
+    
+    button:hover {
+        background-color: lightgoldenrodyellow;
+        cursor: pointer;
+    }
+
+    .errorForm {
+        color: red;
+    }
+}
+
+

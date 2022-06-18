@@ -1,31 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>mvc.org</title>
-    <!-- <link rel="stylesheet" href="/public/css/index.css"> -->
-</head>
-
 <?php
-    require APPROOT . '/views/includes/header.php';
+    // includes header
+    require APPROOT . '/views/includes/head_index.php';
 ?> 
 
-<body>
-<!-- <a href="<?= URLROOT ?>/countries/create">test</a> -->
+<script>   
+     $(document).ready( function () {
+        $('#myTable').DataTable({
+            pageLength : 5,
+            lengthMenu: [ 5, 10, 25, 50, 75, 100 ]
+        });
+        
+        // Testing:
+        // #myInput is a <input type="text"> element
+        // $('#myInput').on( 'keyup', function () {
+        //     table.search( this.value ).draw();
+        // } );
+    } );
+</script>
 
 <h1>Landenoverzicht</h1>
+
+<a href="<?=URLROOT?>/Homepage"><button type="button">homepage</button></a>
+
 <a href="/countries/create"><button type="button" id="addbutton">add new country name</button></a>
-    <table>
+
+<div class="container" style="margin: auto; width: 50%;">
+    <table class="stripe hover order-column row-border display nowrap" id="myTable" style="background-color:lightgrey;">
         <thead>
             <tr>
-                <th scope="col">#id</th>
                 <th scope="col">Land</th>
                 <th scope="col">Hoofstad</th>
                 <th scope="col">Continent</th>
                 <th scope="col">Aantalinwoners</th>
                 <th scope="col">email</th>
+                <th scope="col">update</th>
+                <th scope="col">delete</th>
             </tr>
         </thead>
         <tbody>
@@ -45,5 +54,9 @@
             ?>
         </tbody>
     </table>
-</body>
-</html>
+</div>
+
+<?php
+    // includes footer
+    require APPROOT . '/views/includes/footer.php';
+?> 

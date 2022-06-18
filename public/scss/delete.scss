@@ -1,0 +1,31 @@
+body {
+    background-color: lightcyan;
+    div {
+        margin: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20rem;
+
+        #success {
+            background-color: greenyellow;
+            padding: 1rem;
+        }
+
+        #fail {
+            background-color:red; 
+            padding: 1rem;
+        }
+
+
+    }
+    // #success {
+    //     background-color: darkblue;
+    //     padding: 1rem;
+    // }
+
+    // #fail {
+    //     background-color:darkgreen; 
+    //     padding: 1rem;
+    // }
+}

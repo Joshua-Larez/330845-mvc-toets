@@ -1,4 +1,7 @@
 <?php
+
+    namespace TDD\controllers;
+    use TDD\libraries\BaseController;
     class Pages extends BaseController {
 
         protected $usermodel;
